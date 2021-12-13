@@ -1,5 +1,5 @@
 import torch
-print(torch.__version__)
+#print(torch.__version__)
 import csv
 import numpy
 import cv2
@@ -32,10 +32,7 @@ def read_csv_file(csv_file_name = CSV_FILE):
 
 class PokeDataset(Dataset):
 
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-         transforms.Normalize((0,), (1,))  # zakres 0,1
-         ])
+
 
 
     def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE):
@@ -45,6 +42,11 @@ class PokeDataset(Dataset):
         csv_labels = np.transpose(csv_labels)
         #print(csv_labels)
 
+        transform = transforms.Compose(
+            [transforms.ToTensor(),
+             transforms.Normalize((0,), (1,))  # zakres 0,1
+             ])
+
         for image_name in os.listdir(dataset_dir):
 
             num = image_name.replace(IMG_EXT,'')
@@ -53,7 +55,9 @@ class PokeDataset(Dataset):
 
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
-            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0])
+            image = transform(image)
+            dat = (image, int(csv_labels[2][label_idx][0])-1, csv_labels[1][label_idx][0])#zwraca obraz, label, i nazwę klasy #TODO Usunąc -1 poprawić labale w csv
+
             self.data.append(dat)
 
 
@@ -85,6 +89,9 @@ class DataLoader:
 
 data_loader =  DataLoader().get_data_loader()
 
+
+""" 
 for i, data in enumerate(data_loader):
     print(i)
-    print(len(data[0]))
+    print(data[1])
+"""
