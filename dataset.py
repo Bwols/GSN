@@ -56,8 +56,8 @@ class PokeDataset(Dataset):
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
             image = transform(image)
-            dat = (image, int(csv_labels[2][label_idx][0])-1, csv_labels[1][label_idx][0])#zwraca obraz, label, i nazwę klasy #TODO Usunąc -1 poprawić labale w csv
-
+            #print(image.shape[:])
+            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0])#zwraca obraz, label, i nazwę klasy #TODO Usunięte
             self.data.append(dat)
 
 
@@ -73,9 +73,9 @@ class PokeDataset(Dataset):
 
 class DataLoader:
 
-    def __init__(self, batch_size=16, shuffle=False):
-
-        dataset = PokeDataset()
+    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False):
+        print("Loaded: ",dataset_dir)
+        dataset = PokeDataset(dataset_dir, labels_csv)
         self.data_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size = batch_size,
@@ -87,7 +87,7 @@ class DataLoader:
     def get_data_loader(self):
         return self.data_loader
 
-data_loader =  DataLoader().get_data_loader()
+
 
 
 """ 

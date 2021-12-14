@@ -15,24 +15,24 @@ def make_dir(dir_name):
         os.mkdir(dir_name)
 
 
-def crop(image,dim=(64,64)):
+def crop(image,dim=(64,64)):#change here size
     new_img = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     return new_img
 
 
-def image_transformation(image_path):
+def image_transformation(image_path,dim=(64,64)):
     image = cv2.imread(image_path)
-    return crop(image)
+    return crop(image,dim)
 
 
-def prepare_dataset(pokemonDataDir=POKEMONDATA ,output_dir = DATASET_DIR):
+def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, csv_file =CSV_FILE):
 
     i = 0  # numer obrazu
-    k = 0  # numer klasy
+    k = -1  # numer klasy
 
     make_dir(output_dir)
 
-    file = open(CSV_FILE, 'w', newline='')
+    file = open(csv_file, 'w', newline='')
     writer = csv.writer(file)
     #writer.writerow(["image number", "pokemon name", "pokemon class index"])
 
@@ -54,15 +54,17 @@ def prepare_dataset(pokemonDataDir=POKEMONDATA ,output_dir = DATASET_DIR):
                 print(pokemon_name, filename)
 
                 i += 1
-                new_image = image_transformation(image_path)
+                new_image = image_transformation(image_path,dim)
                 image_name = i
+
                 out_file = "{}/{}.png".format(output_dir, image_name)
                 cv2.imwrite(out_file, new_image)
                 writer.writerow([i,pokemon_name,k])
 
+
     file.close()
 
 
-prepare_dataset()
+prepare_dataset(dim=(224,224), output_dir="Pokemon_Images_224",csv_file="pokedex_224.csv")
 
 
