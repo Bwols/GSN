@@ -1,19 +1,24 @@
 import pytorch_lightning as pl
 from model import Model
+from resnet import ResNet
 import torch
 from torch.nn import functional as F
 from dataset import DataLoader
 
 def OneHot(label):
     return torch.zeros(150)
-
+def ResNet50():
+    return ResNet([3, 4, 6, 3])
+def ResNet152():
+    return ResNet([3, 8, 36, 3])
+    
 class PokemonClassifier(pl.LightningModule):
 
     def __init__(self):
         super(PokemonClassifier, self).__init__()
         self.layer1 = torch.nn.Linear(64 * 64 * 3, 150)
-        self.model = Model()
-
+        #self.model = Model()
+        self.model = ResNet50()
 
     def cross_entropy_loss(self, logits, labels):
         loss = torch.nn.BCELoss()
