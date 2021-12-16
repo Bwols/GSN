@@ -13,6 +13,7 @@ import numpy as np
 CSV_FILE = "pokedex.csv"
 DATASET_DIR = "Pokemon_Images"
 IMG_EXT = ".png"
+from data_preprocess import CLASSES_CSV
 
 
 def read_csv_file(csv_file_name = CSV_FILE):
@@ -50,7 +51,7 @@ class PokeDataset(Dataset):
         for image_name in os.listdir(dataset_dir):
 
             num = image_name.replace(IMG_EXT,'')
-            label_idx = np.where(csv_labels[0] ==num)
+            label_idx = np.where(csv_labels[0] == num)
 
 
             image_path = os.path.join(dataset_dir,image_name)
@@ -95,3 +96,12 @@ for i, data in enumerate(data_loader):
     print(i)
     print(data[1])
 """
+def read_classes(classes_csv= CLASSES_CSV):
+    csv_labels = read_csv_file(classes_csv)
+
+    data = [i for i in range(150)]
+    for t in csv_labels:
+        data[int(t[0])] = t[1]
+    return data
+
+read_classes()
