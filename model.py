@@ -24,7 +24,7 @@ class PokemonClassifier(pl.LightningModule):
         self.model = ResNet50()
 
     def cross_entropy_loss(self, logits, labels):
-        loss = torch.nn.BCELoss()
+        loss = torch.nn.BCELoss(reduction='sum')
         # return F.nll_loss(logits, labels)
         return loss(logits.float(), labels.float())
 
@@ -43,10 +43,22 @@ class PokemonClassifier(pl.LightningModule):
         return loss
 
     def validation_step(self, val_batch, batch_idx):
-        x, label, name = val_batch
-        label = F.one_hot(label, 150)
+        x, labels, name = val_batch
+        labels_cp = F.one_hot(labels, 150)
         logits = self.forward(x)
-        loss = self.cross_entropy_loss(logits, label)
+
+        class_propabilities, pred_labels = torch.max(logits, 1)
+        right_preds = 0
+
+        for i in range(0, len(pred_labels)):
+            if pred_labels[i] == labels[i]:
+                right_preds += 1
+        print("     Right predictions{}/{}".format(right_preds,len(pred_labels)))
+
+        loss = self.cross_entropy_loss(logits, labels_cp)
+
+
+
         self.log('val_loss', loss)
 
     def configure_optimizers(self):

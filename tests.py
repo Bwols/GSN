@@ -3,6 +3,7 @@ from model import PokemonClassifier
 from dataset import DataLoader, read_classes
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2
 
 
 
@@ -13,6 +14,7 @@ import matplotlib.pyplot as plt
 
 def load_model(path_to_model):
     model = PokemonClassifier()
+    model.eval()
     PokemonClassifier.load_from_checkpoint(path_to_model)
     return model
 
@@ -30,6 +32,16 @@ def show_results_of_model(model, data, output_file=None):
     classes = read_classes()
     class_propabilities, pred_labels = torch.max(pred_labels, 1)
 
+    right_preds = 0
+
+    for i in range(0,len(pred_labels)):
+        print(i)
+        if pred_labels[i] == labels[i]:
+            right_preds+=1
+
+
+    print(right_preds)
+
 
     print(labels)
     print(pred_labels)
@@ -37,6 +49,7 @@ def show_results_of_model(model, data, output_file=None):
     for i in range(len(images)):
         image = images[i]
         image = np.transpose(image, (1, 2, 0))
+
         sub = fig.add_subplot(1, len(images), i + 1)
         true_class = class_names[i]
         pred_class = classes[pred_labels[i]]
@@ -50,6 +63,7 @@ def show_results_of_model(model, data, output_file=None):
 
 
 path_to_model = "C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt"
+path_to_model = "models/first_test.ckpt"
 model = load_model(path_to_model)
 
 data = load_data(8)
