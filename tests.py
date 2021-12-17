@@ -3,13 +3,13 @@ from model import PokemonClassifier
 from dataset import DataLoader, read_classes
 import numpy as np
 import matplotlib.pyplot as plt
+
 import cv2
 
-
+from utils import accuracy
 
 #model  = PokemonClassifier()
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
-
 
 
 def load_model(path_to_model):
@@ -45,6 +45,7 @@ def show_results_of_model(model, data, output_file=None):
 
     print(labels)
     print(pred_labels)
+    print(accuracy(labels, pred_labels))
 
     for i in range(len(images)):
         image = images[i]

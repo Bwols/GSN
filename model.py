@@ -2,9 +2,7 @@ import pytorch_lightning as pl
 import torch
 from torch.nn import functional as F
 from resnet import ResNet
-
-def OneHot(label):
-    return torch.zeros(150)
+from utils import accuracy
 
 
 def ResNet50():
@@ -25,23 +23,40 @@ class PokemonClassifier(pl.LightningModule):
 
     def cross_entropy_loss(self, logits, labels):
         loss = torch.nn.BCELoss(reduction='sum')
+        loss = torch.nn.CrossEntropyLoss()
         #loss = torch.nn.L1Loss(reduction='sum')
         # return F.nll_loss(logits, labels)
-        return loss(logits.float(), labels.float())
+        return loss(logits, labels)
+        #return loss(logits.float(), labels.float())
 
-
+    def NLLLoss(self,logits, labels):
+        pass
 
     def forward(self, x):
         x = self.model(x)
 
         return x
-
+    """
     def training_step(self, train_batch, batch_idx):
         x, label, name = train_batch
         label = F.one_hot(label, 150)
         # print(x.size())
         logits = self.forward(x)
         loss = self.cross_entropy_loss(logits, label)
+        self.log('train_loss', loss)
+        return loss
+    """
+
+    def training_step(self, train_batch, batch_idx):
+        x, label, name = train_batch
+        #label = F.one_hot(label, 150)
+
+        # print(x.size())
+        logits = self.forward(x)
+        class_propabilities, pred_labels = torch.max(logits, 1)
+
+        loss = self.cross_entropy_loss(pred_labels, label)
+
         self.log('train_loss', loss)
         return loss
 

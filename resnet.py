@@ -40,6 +40,7 @@ class Bottleneck(pl.LightningModule):
         nn.BatchNorm2d(places*self.expansion)
       )
     self.relu = nn.ReLU(inplace=True)
+
   def forward(self, x):
     residual = x
     out = self.bottleneck(x)
