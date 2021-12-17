@@ -6,7 +6,7 @@ from data_preprocess import make_dir
 MODELS_DIR = "models"
 
 
-def train_model(train_name,batch_size=16, max_epochs=1,):
+def train_model(train_name,batch_size=16, max_epochs=5):
     make_dir(MODELS_DIR)
 
     model = PokemonClassifier()

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision
 import numpy as np
+import pytorch_lightning as pl
 
 print("PyTorch Version: ",torch.__version__)
 print("Torchvision Version: ",torchvision.__version__)
@@ -16,7 +17,7 @@ def Conv1(in_planes, places, stride=2):
     nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
   )
 
-class Bottleneck(nn.Module):
+class Bottleneck(pl.LightningModule):
   def __init__(self,in_places,places, stride=1,downsampling=False, expansion = 4):
     super(Bottleneck,self).__init__()
     self.expansion = expansion
@@ -50,7 +51,7 @@ class Bottleneck(nn.Module):
     out = self.relu(out)
     return out
 
-class ResNet(nn.Module):
+class ResNet(pl.LightningModule):
   def __init__(self, blocks, inputSize = 256,  num_classes=150, expansion = 4): ## Dodatkowy parametr input size. Jesli chcemy zeby input byl 64 to musimy wywolac np return ResNet([3, 4, 6, 3], 64)
     super(ResNet,self).__init__()
     self.expansion = expansion
@@ -98,6 +99,9 @@ class ResNet(nn.Module):
     x = self.avgpool(x)
     x = x.view(x.size(0), -1)
     x = self.fc(x)
+    fun = nn.Sigmoid()
+    x = fun(x)
+
     return x
 
 #def ResNet50():

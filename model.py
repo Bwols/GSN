@@ -25,12 +25,15 @@ class PokemonClassifier(pl.LightningModule):
 
     def cross_entropy_loss(self, logits, labels):
         loss = torch.nn.BCELoss(reduction='sum')
+        #loss = torch.nn.L1Loss(reduction='sum')
         # return F.nll_loss(logits, labels)
         return loss(logits.float(), labels.float())
 
+
+
     def forward(self, x):
         x = self.model(x)
-        x = torch.sigmoid(x)
+
         return x
 
     def training_step(self, train_batch, batch_idx):
@@ -62,6 +65,6 @@ class PokemonClassifier(pl.LightningModule):
         self.log('val_loss', loss)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=1e-3)
+        optimizer = torch.optim.Adam(self.parameters(), lr=0.005)#lr=1e-3
         return optimizer
 
