@@ -2,7 +2,8 @@ import pytorch_lightning as pl
 import torch
 from torch.nn import functional as F
 from resnet import ResNet
-from utils import accuracy
+#from utils import accuracy
+from torchmetrics import Accuracy
 import torch.nn as nn
 
 def ResNet50():
@@ -53,7 +54,7 @@ class PokemonClassifier(pl.LightningModule):
         return loss(logits, labels)
 
     def forward(self, x):
-        x.to("cuda")
+        #x.to("cuda")
         x = self.model(x)
 
         return x
@@ -93,8 +94,10 @@ class PokemonClassifier(pl.LightningModule):
 
         class_propabilities, pred_labels = torch.max(logits, 1)
         right_preds = 0
-
+        accuracy = Accuracy().to("cuda")
         print("Accuracy:{}", accuracy(labels, pred_labels))
+        print("labels", labels)
+        print("pred", pred_labels)
         loss = self.cross_entropy_loss(logits, labels)
 
         self.log('val_loss', loss)

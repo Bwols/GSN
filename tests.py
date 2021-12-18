@@ -62,15 +62,15 @@ def show_results_of_model(model, data, output_file=None):
     plt.show()
 
 
-
-path_to_model = "C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt"
+"""
+#path_to_model = "C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt"
 path_to_model = "models/first_test.ckpt"
 model = load_model(path_to_model)
 
-data = load_data(8)
+data = load_data(16)
 
 show_results_of_model(model,data, output_file="rabbit.png")
-
+"""
 
 
 
