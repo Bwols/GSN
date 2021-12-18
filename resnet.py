@@ -100,8 +100,8 @@ class ResNet(pl.LightningModule):
     x = self.avgpool(x)
     x = x.view(x.size(0), -1)
     x = self.fc(x)
-    fun = nn.Sigmoid()
-    x = fun(x)
+    #fun = nn.Sigmoid()
+    #x = fun(x)
 
     return x
 

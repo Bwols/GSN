@@ -15,9 +15,9 @@ def train_model(train_name,batch_size=16, max_epochs=5):
     train_dataloader = DataLoader(batch_size=batch_size,shuffle=True).get_data_loader()
     val_loader = DataLoader(batch_size=64,shuffle=True).get_data_loader()
 
-    trainer = pl.Trainer(max_epochs=max_epochs,gpus=1)
+    trainer = pl.Trainer(max_epochs=max_epochs)
 
-    trainer.fit(model, train_dataloader, val_loader)
+    trainer.fit(model, train_dataloader)#
 
     make_dir(MODELS_DIR)
     trainer.save_checkpoint("{}/{}.ckpt".format(MODELS_DIR, train_name))
@@ -25,4 +25,4 @@ def train_model(train_name,batch_size=16, max_epochs=5):
 
 
 
-train_model("first_test")
+train_model("first_test",batch_size=16)

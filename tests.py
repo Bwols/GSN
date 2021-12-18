@@ -69,7 +69,7 @@ model = load_model(path_to_model)
 
 data = load_data(8)
 
-show_results_of_model(model,data)
+show_results_of_model(model,data, output_file="rabbit.png")
 
 
 
