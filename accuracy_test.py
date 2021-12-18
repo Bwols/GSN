@@ -35,7 +35,7 @@ if __name__=='__main__':
     model = load_model(path_to_model)
     #model = PokemonClassifier()
     classes = read_classes()
-    data = load_data(63)
+    data = load_data(100)
     images, labels, class_names = data
     pred_labels = model(images)
     class_propabilities, pred_labels = torch.max(pred_labels, 1)
