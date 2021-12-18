@@ -15,7 +15,7 @@ from utils import accuracy
 def load_model(path_to_model):
     model = PokemonClassifier()
     model.eval()
-    PokemonClassifier.load_from_checkpoint(path_to_model)
+    model = model.load_from_checkpoint(path_to_model)
     return model
 
 def load_data(batch_size=8):
