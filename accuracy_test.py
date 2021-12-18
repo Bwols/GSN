@@ -31,7 +31,7 @@ def load_data(batch_size=1500):
     return data
 
 if __name__=='__main__':
-    path_to_model = "models/first_test.ckpt"
+    path_to_model = "models/first_test_new.ckpt"
     model = load_model(path_to_model)
     #model = PokemonClassifier()
     classes = read_classes()
