@@ -10,6 +10,8 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 import numpy as np
 
+
+
 CSV_FILE = "pokedex.csv"
 DATASET_DIR = "Pokemon_Images"
 IMG_EXT = ".png"
@@ -43,8 +45,15 @@ class PokeDataset(Dataset):
         #print(csv_labels)
 
         transform = transforms.Compose(
-            [transforms.ToTensor(),
-             transforms.Normalize((0,), (1,))  # zakres 0,1
+            [
+             transforms.ToPILImage(),
+             transforms.RandomHorizontalFlip(),
+             transforms.RandomVerticalFlip(),
+             transforms.RandomRotation(degrees = 45), # Augmentacja 
+             transforms.ColorJitter(brightness=0, contrast = 0, saturation = 0), # Augmentacja
+             transforms.RandomGrayscale(),
+             transforms.ToTensor(),
+             transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
 
         for image_name in os.listdir(dataset_dir):
