@@ -65,9 +65,13 @@ class PokeDataset(Dataset):
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)#TODO wczytwać wszędzie w tym standardzie
-            image = transform(image)
+            image2 = transform(image)
+            for i in range(3):
+                image2 = np.append(image2, transform(image))
+            
+            
             #print(image.shape[:])
-            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0])#zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
             self.data.append(dat)
 
             j+=1
