@@ -70,6 +70,6 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
     file2.close()
 
 #uncomment to run prepare dataset
-#prepare_dataset(dim=(64,64), output_dir="Pokemon_Images",csv_file="pokedex.csv")
+prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv")
 
 
