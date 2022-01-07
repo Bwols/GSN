@@ -97,7 +97,7 @@ def calc_accuracy(mode_name, device="cuda"):
     labels_arr = labels_arr.to(device)
     pred_labels_arr = pred_labels_arr.to(device)
 
-    acc = g(labels_arr.int(), pred_labels_arr.int())
+    acc = (labels_arr.int(), pred_labels_arr.int())
     print("Accuracy:", acc.float())
     return accuracy
 
