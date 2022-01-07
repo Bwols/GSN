@@ -1,10 +1,21 @@
+"""
+Kod oparty o :
+https://towardsdatascience.com/how-to-train-an-image-classifier-in-pytorch-and-use-it-to-perform-basic-inference-on-single-images-99465a1e9bf5
+
+
+"""
+
+
+
+
+
 import torch
 from model import PokemonClassifier
 from dataset import DataLoader, read_classes
 import numpy as np
 import matplotlib.pyplot as plt
 
-import cv2
+
 
 from utils import accuracy
 from torchmetrics import Accuracy
@@ -69,9 +80,6 @@ def calc_accuracy(mode_name, device="cuda"):
 
     accuracy = Accuracy().to(device)
 
-
-
-
     labels_arr = torch.tensor([]).to(device)
     pred_labels_arr = torch.tensor([]).to(device)
     for i, data in enumerate(test_dataloader):
@@ -89,79 +97,7 @@ def calc_accuracy(mode_name, device="cuda"):
     labels_arr = labels_arr.to(device)
     pred_labels_arr = pred_labels_arr.to(device)
 
-    acc = accuracy(labels_arr.int(), pred_labels_arr.int())
+    acc = g(labels_arr.int(), pred_labels_arr.int())
     print("Accuracy:", acc.float())
     return accuracy
 
-
-"""
-#path_to_model = "C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt"
-path_to_model = "models/first_test.ckpt"
-model = load_model(path_to_model)
-
-data = load_data(16)
-
-show_results_of_model(model,data, output_file="rabbit.png")
-"""
-
-
-
-
-"""
-
-import torch.nn.functional as F
-from resnet import ResNet
-from torch import  nn
-a = torch.tensor([3,0,9])
-k = torch.nn.functional.one_hot(a,10)
-print(k)
-#print(k)
-z = input = torch.randn(3, 5)
-
-#loss = F.nll_loss(k, k)
-
-#loss = F.cross_entropy(z,z)
-loss2 = nn.BCEWithLogitsLoss()
-target = torch.randint(0, 10, (10,))
-print(target)
-one_hot = torch.nn.functional.one_hot(target)
-loss2(one_hot.float(), one_hot.float())
-print(one_hot)
-
-input = torch.randn([16,3,256,256])
-net = ResNet([3, 4, 6, 3], 256)
-net(input)
-
-
-model = PokemonClassifier()
-PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_40\\checkpoints\\epoch=4-step=2139.ckpt")
-
-input = torch.randn([16,3,64,64])
-
-labels = model(input)
-print(labels)
-
-classes_pred = torch.max(labels,1)
-print(classes_pred)
-
-test_dataloader = DataLoader(batch_size=8).get_data_loader()
-images, labels, class_names = data = iter(test_dataloader).next()
-print(labels)
-
-fig = plt.figure(figsize=(10, 2))
-for ii in range(len(images)):
-    image = images[ii]
-    image = np.transpose(image,(1,2,0))
-    sub = fig.add_subplot(1, len(images), ii+1)
-    index = labels[ii]
-    sub.set_title("".format(index))
-
-    plt.axis('off')
-
-    plt.imshow(image)
-    print(ii)
-plt.savefig("compare.png")
-plt.show()
-def load_model():
-    pass
-"""
