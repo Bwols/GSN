@@ -6,7 +6,7 @@ from glob import glob
 DATASET_DIR = "Pokemon_Images"
 POKEMONDATA = "PokemonData"
 CSV_FILE = "pokedex.csv"
-
+CLASSES_CSV = "classes.csv"
 
 
 
@@ -34,6 +34,9 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
 
     file = open(csv_file, 'w', newline='')
     writer = csv.writer(file)
+
+    file2 = open(CLASSES_CSV, 'w', newline='')
+    writer2 = csv.writer(file2)
     #writer.writerow(["image number", "pokemon name", "pokemon class index"])
 
     for pokemon_folder in os.listdir(pokemonDataDir):
@@ -43,6 +46,7 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
         if os.path.isdir(pokemon_folder):
             #print(pokemon_folder)
             k += 1
+            writer2.writerow([k, pokemon_name])
             for filename in os.listdir(pokemon_folder):
 
                 image_path = os.path.join(pokemon_folder, filename)
@@ -63,8 +67,9 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
 
 
     file.close()
+    file2.close()
 
-
-prepare_dataset(dim=(224,224), output_dir="Pokemon_Images_224",csv_file="pokedex_224.csv")
+#uncomment to run prepare dataset
+prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv")
 
 

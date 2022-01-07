@@ -1,3 +1,4 @@
+
 import torch
 import csv
 import numpy
@@ -22,7 +23,7 @@ CLASSES_CSV = "classes.csv"
 def load_model(path_to_model):
     model = PokemonClassifier()
     model.eval()
-    PokemonClassifier.load_from_checkpoint(path_to_model)
+    model=model.load_from_checkpoint(path_to_model)
     return model
 
 def load_data(batch_size=1500):
@@ -31,24 +32,23 @@ def load_data(batch_size=1500):
     return data
 
 if __name__=='__main__':
-    path_to_model = "models/first_test.ckpt"
+    path_to_model = "models/first_test_new.ckpt"
     model = load_model(path_to_model)
+    #model = PokemonClassifier()
     classes = read_classes()
-    data = load_data(63)
+    data = load_data(100)
     images, labels, class_names = data
     pred_labels = model(images)
     class_propabilities, pred_labels = torch.max(pred_labels, 1)
     right_preds = 0
 
     for i in range(0,len(pred_labels)):
-        print(i)
-        print(pred_labels[i])
-        print(labels[i])
+        #print(i)
+        #print(pred_labels[i])
+        #print(labels[i])
         if pred_labels[i] == labels[i]:
             right_preds+=1
 
 
     print(right_preds)
     print(accuracy(labels, pred_labels))
-
-

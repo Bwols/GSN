@@ -10,9 +10,14 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 import numpy as np
 
+
+
 CSV_FILE = "pokedex.csv"
 DATASET_DIR = "Pokemon_Images"
 IMG_EXT = ".png"
+
+POKEMONDATA = "PokemonData"
+CLASSES_CSV = "classes.csv"
 
 
 def read_csv_file(csv_file_name = CSV_FILE):
@@ -28,14 +33,11 @@ def read_csv_file(csv_file_name = CSV_FILE):
     file.close()
     return rows
 
-#read_csv_file()
 
 class PokeDataset(Dataset):
 
-
-
-
-    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE):
+    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, max_size=10000):
+        j = 0
 
         self.data = []
         csv_labels = read_csv_file(labels_csv)
@@ -43,24 +45,38 @@ class PokeDataset(Dataset):
         #print(csv_labels)
 
         transform = transforms.Compose(
-            [transforms.ToTensor(),
-             transforms.Normalize((0,), (1,))  # zakres 0,1
+            [
+             transforms.ToPILImage(),
+             transforms.RandomHorizontalFlip(),
+             transforms.RandomVerticalFlip(),
+             transforms.RandomRotation(degrees = 45), # Augmentacja 
+             transforms.ColorJitter(brightness=0, contrast = 0, saturation = 0), # Augmentacja
+             transforms.RandomGrayscale(),
+             transforms.ToTensor(),
+             transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
 
         for image_name in os.listdir(dataset_dir):
 
             num = image_name.replace(IMG_EXT,'')
-            label_idx = np.where(csv_labels[0] ==num)
+            label_idx = np.where(csv_labels[0] == num)
 
 
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
-            image = transform(image)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)#TODO wczytwać wszędzie w tym standardzie
+            image2 = transform(image)
+            for i in range(3):
+                image2 = np.append(image2, transform(image))
+            
+            
             #print(image.shape[:])
-            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0])#zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
             self.data.append(dat)
 
-
+            j+=1
+            if j >= max_size:
+                return
 
 
     def __len__(self):
@@ -73,9 +89,9 @@ class PokeDataset(Dataset):
 
 class DataLoader:
 
-    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False):
+    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False,max_size=10000):
         print("Loaded: ",dataset_dir)
-        dataset = PokeDataset(dataset_dir, labels_csv)
+        dataset = PokeDataset(dataset_dir, labels_csv, max_size)
         self.data_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size = batch_size,
@@ -88,10 +104,12 @@ class DataLoader:
         return self.data_loader
 
 
+def read_classes(classes_csv=CLASSES_CSV):
 
+    csv_labels = read_csv_file(classes_csv)
 
-""" 
-for i, data in enumerate(data_loader):
-    print(i)
-    print(data[1])
-"""
+    data = [i for i in range(150)]
+    for t in csv_labels:
+        data[int(t[0])] = t[1]
+    return data
+
