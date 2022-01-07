@@ -1,39 +1,19 @@
+"""
+Do stworzenie tego programu został wykorzystany kod z https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
+
+"""
+
 import pytorch_lightning as pl
 import torch
-from torch.nn import functional as F
 from resnet import ResNet
-#from utils import accuracy
 from torchmetrics import Accuracy
-import torch.nn as nn
+
 
 def ResNet50():
     return ResNet([3, 4, 6, 3], inputSize=64)
 
 def ResNet152():
     return ResNet([3, 8, 36, 3], inputSize=64)
-
-
-class Net(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 150)
-
-    def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = torch.flatten(x, 1) # flatten all dimensions except batch
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-
-        #fun = nn.Sigmoid()
-        #x = fun(x)
-        return x
 
 
 
