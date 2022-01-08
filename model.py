@@ -1,6 +1,6 @@
 """
 Do stworzenie tego programu został wykorzystany kod z https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
-
+i https://towardsdatascience.com/keeping-up-with-pytorch-lightning-and-hydra-2nd-edition-34f88e9d5c90
 """
 
 import pytorch_lightning as pl

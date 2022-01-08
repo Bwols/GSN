@@ -1,5 +1,8 @@
 from dataset import DataLoader, read_classes
 import torch.nn as nn
+import hydra
+
+"""
 test_dataloader = DataLoader(batch_size=4, shuffle=True, max_size=400).get_data_loader()
 data = iter(test_dataloader).next()
 
@@ -19,7 +22,7 @@ criterion = nn.CrossEntropyLoss()
 
 loss = criterion(output1, labels)
 
-
+"""
 
 
 

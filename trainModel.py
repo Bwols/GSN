@@ -1,10 +1,19 @@
+"""
+Kod oparty o https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
+
+"""
+
+
+
 import pytorch_lightning as pl
 from model import PokemonClassifier
 
 from dataset import DataLoader
 from data_preprocess import make_dir
-MODELS_DIR = "models"
+
 from tests import show_results_of_model, load_data
+
+MODELS_DIR = "models"
 
 def train_model(train_name,batch_size=16, max_epochs=5):
     make_dir(MODELS_DIR)
