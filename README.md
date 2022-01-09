@@ -27,3 +27,9 @@ architecture_config:
   architecture: ResNet50
   image_size: 64
 ``` 
+### UWAGA!!!
+Kod nie jest w całości nasz.
+Kod opiera się o a także zawiera cudze fragmenty programów.
+Do stworzenia kodu zostały użyte następujące źródła:
+https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
+https://towardsdatascience.com/keeping-up-with-pytorch-lightning-and-hydra-2nd-edition-34f88e9d5c90
