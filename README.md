@@ -15,7 +15,7 @@ python3.7 main.py +name=run1 architecture_config=resnet50_256
 * `architecture_config` -- 
 
 ### Przykładowe ustawienia uczenia
-
+``` 
 dataset_config:
   dir: pokemon_images
   pokedex: pokedex.csv
@@ -26,4 +26,4 @@ training_config:
 architecture_config:
   architecture: ResNet50
   image_size: 64
-
+``` 
