@@ -1,6 +1,3 @@
-
-
-
 import torch
 #print(torch.__version__)
 import csv
@@ -47,14 +44,21 @@ class PokeDataset(Dataset):
         csv_labels = np.transpose(csv_labels)
         #print(csv_labels)
 
+        oirignalTransform = transforms.Compose(
+            [
+             transforms.ToPILImage(),
+             transforms.ToTensor(),
+             transforms.Normalize((0,), (1,)),  # zakres 0,1
+             ])
+
         transform = transforms.Compose(
             [
              transforms.ToPILImage(),
-             transforms.RandomHorizontalFlip(),
-             transforms.RandomVerticalFlip(),
+             transforms.RandomHorizontalFlip(), # Augemntacja
+             transforms.RandomVerticalFlip(), # Augmentacja
              transforms.RandomRotation(degrees = 45), # Augmentacja 
              transforms.ColorJitter(brightness=0, contrast = 0, saturation = 0), # Augmentacja
-             transforms.RandomGrayscale(),
+             transforms.RandomGrayscale(), # Augemntacja
              transforms.ToTensor(),
              transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
@@ -68,14 +72,15 @@ class PokeDataset(Dataset):
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)#TODO wczytwać wszędzie w tym standardzie
-            image2 = transform(image)
-            for i in range(3):
-                image2 = np.append(image2, transform(image))
-            
-            
+            imageOriginal = oirignalTransform(image)
+            dat = (imageOriginal, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            self.data.append(dat) 
             #print(image.shape[:])
-            dat = (image, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
-            self.data.append(dat)
+            #dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            for i in range(3):
+                image2 = transform(image)
+                dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+                self.data.append(dat)
 
             j+=1
             if j >= max_size:
@@ -95,7 +100,6 @@ class DataLoader:
     def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False,max_size=10000):
         print("Loaded: ",dataset_dir)
         dataset = PokeDataset(dataset_dir, labels_csv, max_size)
-        print(len(dataset))
         self.data_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size = batch_size,
@@ -116,4 +120,3 @@ def read_classes(classes_csv=CLASSES_CSV):
     for t in csv_labels:
         data[int(t[0])] = t[1]
     return data
-
