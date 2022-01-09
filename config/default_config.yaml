@@ -1,0 +1,3 @@
+defaults:
+ - dataset_config: dataset_64
+ - training_config: training_default
