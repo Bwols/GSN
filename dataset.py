@@ -95,6 +95,7 @@ class DataLoader:
     def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False,max_size=10000):
         print("Loaded: ",dataset_dir)
         dataset = PokeDataset(dataset_dir, labels_csv, max_size)
+        print(len(dataset))
         self.data_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size = batch_size,

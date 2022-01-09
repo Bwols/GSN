@@ -43,7 +43,8 @@ class PokemonClassifier(pl.LightningModule):
         x, labels, names = train_batch
 
         #label = F.one_hot(label, 150)
-
+        print(x.shape[:])
+        print("n\n\n DUUUPA")
         # print(x.size())
         logits = self.forward(x)
         #print(labels)
