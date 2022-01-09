@@ -44,14 +44,21 @@ class PokeDataset(Dataset):
         csv_labels = np.transpose(csv_labels)
         #print(csv_labels)
 
+        oirignalTransform = transforms.Compose(
+            [
+             transforms.ToPILImage(),
+             transforms.ToTensor(),
+             transforms.Normalize((0,), (1,)),  # zakres 0,1
+             ])
+
         transform = transforms.Compose(
             [
              transforms.ToPILImage(),
-             transforms.RandomHorizontalFlip(),
-             transforms.RandomVerticalFlip(),
+             transforms.RandomHorizontalFlip(), # Augemntacja
+             transforms.RandomVerticalFlip(), # Augmentacja
              transforms.RandomRotation(degrees = 45), # Augmentacja 
              transforms.ColorJitter(brightness=0, contrast = 0, saturation = 0), # Augmentacja
-             transforms.RandomGrayscale(),
+             transforms.RandomGrayscale(), # Augemntacja
              transforms.ToTensor(),
              transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
@@ -65,11 +72,9 @@ class PokeDataset(Dataset):
             image_path = os.path.join(dataset_dir,image_name)
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)#TODO wczytwać wszędzie w tym standardzie
-            #image2 = transform(image)
-            #for i in range(3):
-            #    image2 = np.append(image2, transform(image))
-            
-            
+            imageOriginal = oirignalTransform(image)
+            dat = (imageOriginal, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            self.data.append(dat) 
             #print(image.shape[:])
             #dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
             for i in range(3):
