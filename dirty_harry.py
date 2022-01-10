@@ -1,16 +1,29 @@
 from dataset import DataLoader, read_classes
 import torch.nn as nn
-
+#https://neptune.ai/blog/pytorch-loss-functions
 import torch
 
 
 import hydra
 from omegaconf import DictConfig, OmegaConf
 
+from tests import load_data
+from model import PokemonClassifier
 
-@hydra.main(config_path="config",config_name="default_config")
-def use_hydra(cfg):
-    print(OmegaConf.to_yaml(cfg))
+model = PokemonClassifier()
+data = load_data(4,10)
+x, labels,_ = data
+y = model(x)
+print(y.shape[:])
+print(labels.shape[:])
+
+criterion = torch.nn.CrossEntropyLoss(reduction='mean')
+criterion = torch.nn.NLLLoss()
+criterion = torch.nn.BCELoss()
+loss = criterion(y,labels)
+
+print(loss)
+
 
 
 """

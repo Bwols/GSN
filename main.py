@@ -4,11 +4,12 @@ from trainModel import train_model
 CONFIG_PATH = "config"
 CONFIG_NAME = "default_config"
 DEFAULT_MODEL_NAME = "run_0"
+
 from os import listdir
 import os
 from hydra.utils import get_original_cwd
 
-
+#git add foldername/\*
 def open_pokedex():
     print(listdir("."))
 
@@ -16,7 +17,7 @@ def open_pokedex():
 
 def run_hydra(config):
 
-    print(get_original_cwd())
+    print(get_original_cwd(),"\n")
     os.chdir(get_original_cwd()) # <--- molto importanto
 
     print(OmegaConf.to_yaml(config))
@@ -27,6 +28,8 @@ def run_hydra(config):
     batch_size = int(config.training_config.batch_size)
     lr = float(config.training_config.lr)
     epochs = int(config.training_config.epochs)
+    optimizer = config.training_config.optimizer
+    loss_function = config.training_config.loss_function
 
     architecture = config.architecture_config.architecture
     image_size = config.architecture_config.image_size
@@ -37,7 +40,6 @@ def run_hydra(config):
         model_name = DEFAULT_MODEL_NAME
 
 
-
     train_model(model_name=model_name,
                 dataset_dir=dataset_dir,
                 dataset_pokedex=dataset_pokedex,
@@ -45,7 +47,9 @@ def run_hydra(config):
                 image_size=image_size,
                 batch_size=batch_size,
                 max_epochs=epochs,
-                lr=lr
+                lr=lr,
+                optimizer=optimizer,
+                loss_function=loss_function
                 )
 
 

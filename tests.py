@@ -30,8 +30,8 @@ def load_model(path_to_model):
     model = model.load_from_checkpoint(path_to_model)
     return model
 
-def load_data(batch_size=8):
-    test_dataloader = DataLoader(batch_size=batch_size, shuffle=True, max_size=100000).get_data_loader()
+def load_data(batch_size=8,max_size=1000000):
+    test_dataloader = DataLoader(batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 

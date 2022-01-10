@@ -15,14 +15,17 @@ from tests import show_results_of_model, load_data
 
 MODELS_DIR = "models"
 
-def train_model(model_name, dataset_dir, dataset_pokedex,architecture="ResNet50",image_size=60, batch_size=16, max_epochs=5,lr=0.001):
+
+def train_model(model_name, dataset_dir, dataset_pokedex,architecture="ResNet50",image_size=60, batch_size=16, max_epochs=5,
+                lr=0.001,optimizer="Adam",loss_function="CrossEntropy"):
     make_dir(MODELS_DIR)
-    model = PokemonClassifier(architecture=architecture, image_size=image_size, lr=lr)
+    model = PokemonClassifier(architecture=architecture, image_size=image_size, lr=lr, optimizer=optimizer, loss_function=loss_function)
 
     train_dataloader = DataLoader(dataset_dir=dataset_dir,
                                   labels_csv=dataset_pokedex,
                                   batch_size=batch_size,
-                                  shuffle=True).get_data_loader()
+                                  shuffle=True,
+                                  max_size=10).get_data_loader()
 
     #val_loader = DataLoader(batch_size=64,shuffle=True).get_data_loader()
 
