@@ -27,7 +27,7 @@ CROSSENTROPY = "CrossEntropy"
 
 class PokemonClassifier(pl.LightningModule):
 
-    def __init__(self, architecture="ResNet50", image_size=64, lr=0.001, optimizer=ADAM,loss_function=CROSSENTROPY):
+    def __init__(self, architecture="ResNet50", image_size=64, lr=0.001, optimizer=ADAM,loss_function=CROSSENTROPY, device="cuda"):
         super(PokemonClassifier, self).__init__()
 
         # self.model = Model()
@@ -44,6 +44,8 @@ class PokemonClassifier(pl.LightningModule):
             self.model = ResNet152(inputSize=image_size)
         else:
             print("Unknown Architecture!!!")
+
+        self.accuracy = Accuracy().to(device)
 
 
     def set_loss_criterion(self,loss_function):
@@ -75,8 +77,8 @@ class PokemonClassifier(pl.LightningModule):
 
         class_propabilities, pred_labels = torch.max(logits, 1)
         right_preds = 0
-        accuracy = Accuracy().to("cuda")
-        print("Accuracy:{}", accuracy(labels, pred_labels))
+
+        print("Accuracy:{}", self.accuracy(labels, pred_labels))
         print("labels", labels)
         print("pred", pred_labels)
         loss = self.loss_criterion(logits, labels)

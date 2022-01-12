@@ -6,9 +6,6 @@ https://towardsdatascience.com/how-to-train-an-image-classifier-in-pytorch-and-u
 """
 
 
-
-
-
 import torch
 from model import PokemonClassifier
 from dataset import DataLoader, read_classes
@@ -75,13 +72,14 @@ def show_results_of_model(model, data, output_file=None):
 
 
 def calc_accuracy(mode_name, device="cuda"):
-    test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=10000).get_data_loader()
+    test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=100000).get_data_loader()
     model = load_model(mode_name).to(device)
 
     accuracy = Accuracy().to(device)
 
     labels_arr = torch.tensor([]).to(device)
     pred_labels_arr = torch.tensor([]).to(device)
+
     for i, data in enumerate(test_dataloader):
         images, labels, names = data
         labels = labels.to(device)
