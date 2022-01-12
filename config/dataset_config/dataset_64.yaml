@@ -1,4 +1,4 @@
-dir: pokemon_images
+dir: Pokemon_Images
 pokedex: pokedex.csv
-val_dir: pokemon_images
+val_dir: Pokemon_Images
 val_pokedex: pokedex.csv
