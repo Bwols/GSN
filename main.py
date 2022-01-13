@@ -33,7 +33,7 @@ def run_hydra(config):
     #device = config.training_config.device
     device = torch.device('cpu')
     if torch.cuda.is_available():
-        device = torch.device('cuda')
+        device = 'cuda'
     print("--> using:{}".format(device))
 
     architecture = config.architecture_config.architecture

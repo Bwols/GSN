@@ -11,7 +11,7 @@ import time
 from tests import show_results_of_model, load_data
 
 MODELS_DIR = "models"
-CUDA = 'cuda'
+CUDA = "cuda"
 
 def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_dataset_pokedex, architecture="ResNet50",image_size=60,
                 batch_size=16, max_epochs=5,lr=0.001,optimizer="Adam",loss_function="CrossEntropy",device="cpu"):
@@ -32,8 +32,11 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
                                   max_size=10).get_data_loader()
 
     gpus = 0
+    print(device)
     if device == CUDA:
+
         gpus = 1
+    print(gpus)
 
     trainer = pl.Trainer(max_epochs=max_epochs, gpus=gpus)
 
