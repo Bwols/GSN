@@ -13,7 +13,9 @@ from tests import show_results_of_model, load_data
 MODELS_DIR = "models"
 CUDA = "cuda"
 
-def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_dataset_pokedex, architecture="ResNet50",image_size=64,
+
+def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_dataset_pokedex, architecture="ResNet50",image_size=60,
+
                 batch_size=16, max_epochs=5,lr=0.001,optimizer="Adam",loss_function="CrossEntropy",device="cpu"):
     make_dir(MODELS_DIR)
     model = PokemonClassifier(architecture=architecture, image_size=image_size, lr=lr, optimizer=optimizer, loss_function=loss_function,

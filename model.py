@@ -9,12 +9,12 @@ from resnet import ResNet
 from torchmetrics import Accuracy
 
 
+
 def ResNet50(inputSize=64):
     return ResNet([3, 4, 6, 3], inputSize=inputSize)
 
 def ResNet152(inputSize=64):
     return ResNet([3, 8, 36, 3], inputSize=inputSize)
-
 
 RESNET50 = "ResNet50"
 RESNET152 = "ResNet152"
