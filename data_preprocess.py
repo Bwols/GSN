@@ -69,7 +69,7 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
     file.close()
     file2.close()
 
-#uncomment to run prepare dataset
-#prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv")
+#uncomment to run prepare dataset #TODO
+##prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv") #TODO po odkomentowaniu od razu zakomentować
 
 

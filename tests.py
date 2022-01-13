@@ -21,14 +21,16 @@ from torchmetrics import Accuracy
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
 
 
-def load_model(path_to_model): # TODO
-    model = PokemonClassifier()
-    model.eval()
-    model = model.load_from_checkpoint(path_to_model)
+def load_model(path_to_model,architecture="ResNet50",image_size=64): # TODO
+
+    #model = PokemonClassifier(architecture=architecture,image_size=image_size)
+
+    model = PokemonClassifier.load_from_checkpoint(path_to_model,architecture=architecture,image_size=image_size).eval()
     return model
 
-def load_data(batch_size=8,max_size=1000000):
-    test_dataloader = DataLoader(batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
+
+def load_data(dataset_dir="Pokemon_Images", labels_csv="pokedex.csv", batch_size=8,max_size=100):
+    test_dataloader = DataLoader(dataset_dir=dataset_dir, labels_csv=labels_csv, batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 
@@ -71,9 +73,9 @@ def show_results_of_model(model, data, output_file=None):
     plt.show()
 
 
-def calc_accuracy(mode_name, device="cuda"):
-    test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=100000).get_data_loader()
-    model = load_model(mode_name).to(device)
+def calc_accuracy(model,test_dataloader, device="cpu"):
+    #test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=100000).get_data_loader()
+    model = model.to(device)
 
     accuracy = Accuracy().to(device)
 
@@ -95,7 +97,9 @@ def calc_accuracy(mode_name, device="cuda"):
     labels_arr = labels_arr.to(device)
     pred_labels_arr = pred_labels_arr.to(device)
 
-    acc = (labels_arr.int(), pred_labels_arr.int())
+
+    acc = accuracy(labels_arr.int(), pred_labels_arr.int())
+
     print("Accuracy:", acc.float())
     return accuracy
 

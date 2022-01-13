@@ -39,9 +39,11 @@ class PokemonClassifier(pl.LightningModule):
 
         self.model = None
         if architecture == RESNET50:
+            print("RESNET50")
             self.model = ResNet50(inputSize=image_size)
         elif architecture == RESNET152:
             self.model = ResNet152(inputSize=image_size)
+            print("RESNET152")
         else:
             print("Unknown Architecture!!!")
 

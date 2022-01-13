@@ -1,5 +1,5 @@
 batch_size: 16
 lr: 0.001
-epochs: 3
+epochs: 2
 optimizer: SGD
 loss_function: CrossEntropy
