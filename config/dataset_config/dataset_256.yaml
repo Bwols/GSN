@@ -1,0 +1,4 @@
+dir: Pokemon_Images_256
+pokedex: pokedex_256.csv
+val_dir: Pokemon_Images_256
+val_pokedex: pokedex_256.csv

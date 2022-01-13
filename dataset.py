@@ -1,3 +1,4 @@
+
 import torch
 #print(torch.__version__)
 import csv
@@ -18,8 +19,6 @@ IMG_EXT = ".png"
 
 POKEMONDATA = "PokemonData"
 CLASSES_CSV = "classes.csv"
-
-student = False
 
 
 def read_csv_file(csv_file_name = CSV_FILE):
@@ -64,7 +63,6 @@ class PokeDataset(Dataset):
              transforms.ToTensor(),
              transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
-        
 
         for image_name in os.listdir(dataset_dir):
 
@@ -78,11 +76,12 @@ class PokeDataset(Dataset):
             imageOriginal = oirignalTransform(image)
             dat = (imageOriginal, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
             self.data.append(dat) 
-            #for i in range(3):
-            #    image2 = transform(image)
-            #    dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
-            #
-            #    self.data.append(dat)
+            #print(image.shape[:])
+            #dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+            for i in range(3):
+                image2 = transform(image)
+                dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+                self.data.append(dat)
 
             j+=1
             if j >= max_size:
@@ -121,4 +120,6 @@ def read_classes(classes_csv=CLASSES_CSV):
     data = [i for i in range(150)]
     for t in csv_labels:
         data[int(t[0])] = t[1]
+
+
     return data

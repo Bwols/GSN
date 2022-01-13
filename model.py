@@ -1,6 +1,6 @@
 """
 Do stworzenie tego programu został wykorzystany kod z https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
-
+i https://towardsdatascience.com/keeping-up-with-pytorch-lightning-and-hydra-2nd-edition-34f88e9d5c90
 """
 
 import pytorch_lightning as pl
@@ -9,63 +9,66 @@ from resnet import ResNet
 from torchmetrics import Accuracy
 
 
-def ResNet50():
-    return ResNet([3, 4, 6, 3], inputSize=256)
 
-def ResNet152():
-    return ResNet([3, 8, 36, 3], inputSize=64)
+def ResNet50(inputSize=64):
+    return ResNet([3, 4, 6, 3], inputSize=inputSize)
 
+def ResNet152(inputSize=64):
+    return ResNet([3, 8, 36, 3], inputSize=inputSize)
 
+RESNET50 = "ResNet50"
+RESNET152 = "ResNet152"
+
+ADAM = "Adam" #TODO < defaultowy jak zła nazwa
+SGD = "SGD"
+
+NLLLOSS = "NLLLoss"
+CROSSENTROPY = "CrossEntropy"
 
 class PokemonClassifier(pl.LightningModule):
 
-    def __init__(self):
+    def __init__(self, architecture="ResNet50", image_size=64, lr=0.001, optimizer=ADAM,loss_function=CROSSENTROPY, device="cuda"):
         super(PokemonClassifier, self).__init__()
 
         # self.model = Model()
-        self.model = ResNet50()
+        self.lr = lr
+        self.optimizer = optimizer
 
-    def cross_entropy_loss(self, logits, labels):
-        #loss = torch.nn.BCELoss(reduction='sum')
-        loss = torch.nn.CrossEntropyLoss(reduction='mean')
-        #loss = torch.nn.L1Loss(reduction='sum')
-        # return F.nll_loss(logits, labels)
+        self.loss_criterion = None
+        self.set_loss_criterion(loss_function)
 
-        return loss(logits, labels)
+        self.model = None
+        if architecture == RESNET50:
+            self.model = ResNet50(inputSize=image_size)
+        elif architecture == RESNET152:
+            self.model = ResNet152(inputSize=image_size)
+        else:
+            print("Unknown Architecture!!!")
+
+        self.accuracy = Accuracy().to(device)
+
+
+    def set_loss_criterion(self,loss_function):
+        if loss_function == NLLLOSS:
+            self.loss_criterion = torch.nn.NLLLoss()
+        else:
+            self.loss_criterion = torch.nn.CrossEntropyLoss(reduction='mean')
+        print("loss criterion",self.loss_criterion)
 
     def forward(self, x):
-        #x.to("cuda")
-        x = self.model(x)
 
+        x = self.model(x)
         return x
 
     def training_step(self, train_batch, batch_idx):
         x, labels, names = train_batch
 
-        #label = F.one_hot(label, 150)
-
-        # print(x.size())
         logits = self.forward(x)
-        #print(labels)
-        loss = self.cross_entropy_loss(logits, labels)
+
+        loss = self.loss_criterion(logits, labels)
         self.log('train_loss', loss)
         return loss
 
-    """
-
-    def training_step(self, train_batch, batch_idx):
-        x, label, name = train_batch
-        #label = F.one_hot(label, 150)
-
-        # print(x.size())
-        logits = self.forward(x)
-        class_propabilities, pred_labels = torch.max(logits, 1)
-
-        loss = self.cross_entropy_loss(pred_labels, label)
-
-        self.log('train_loss', loss)
-        return loss
-         """
 
     def validation_step(self, val_batch, batch_idx):
         x, labels, name = val_batch
@@ -74,11 +77,11 @@ class PokemonClassifier(pl.LightningModule):
 
         class_propabilities, pred_labels = torch.max(logits, 1)
         right_preds = 0
-        accuracy = Accuracy().to("cuda")
-        print("Accuracy:{}", accuracy(labels, pred_labels))
-        print("labels", labels)
-        print("pred", pred_labels)
-        loss = self.cross_entropy_loss(logits, labels)
+
+        #print("Accuracy:{}", self.accuracy(labels, pred_labels)) # TODO printy podczas uczenia do manuelnej kontroli
+        #print("labels", labels)
+        #print("pred", pred_labels)
+        loss = self.loss_criterion(logits, labels)
 
         self.log('val_loss', loss)
 
@@ -86,7 +89,11 @@ class PokemonClassifier(pl.LightningModule):
 
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=0.001)#lr=1e-3
-        #optimizer = torch.optim.SGD(self.parameters(), lr=0.001)  # lr=1e-3
+
+        if self.optimizer == "SGD":
+            optimizer = torch.optim.SGD(self.parameters(), lr=self.lr)  # lr=1e-3
+        else:
+            optimizer = torch.optim.Adam(self.parameters(), lr=self.lr)  # lr=1e-3
+        print(optimizer)
         return optimizer
 

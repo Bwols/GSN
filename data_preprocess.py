@@ -1,7 +1,7 @@
 import os
 import cv2
 import csv
-from glob import glob
+
 
 DATASET_DIR = "Pokemon_Images_Teacher"
 POKEMONDATA = "PokemonDataTeacher"

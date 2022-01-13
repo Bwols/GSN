@@ -15,15 +15,16 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 def load_data(batch_size=100):
-    test_dataloader = DataLoader(batch_size=batch_size, shuffle=False, max_size=8000).get_data_loader()
+    test_dataloader = DataLoader(batch_size=batch_size, shuffle=False, max_size=80).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 
 if __name__=='__main__':
     classes = read_classes()
     data = load_data(64)
-    images, labels, class_names = data
 
+    images, labels, class_names = data
+    print(images[0].shape[:])
 
     #for i in range(0,len(images)):
     grid = utils.make_grid(images)

@@ -6,9 +6,6 @@ https://towardsdatascience.com/how-to-train-an-image-classifier-in-pytorch-and-u
 """
 
 
-
-
-
 import torch
 from model import PokemonClassifier
 from dataset import DataLoader, read_classes
@@ -24,14 +21,14 @@ from torchmetrics import Accuracy
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
 
 
-def load_model(path_to_model):
+def load_model(path_to_model): # TODO
     model = PokemonClassifier()
     model.eval()
     model = model.load_from_checkpoint(path_to_model)
     return model
 
-def load_data(batch_size=8):
-    test_dataloader = DataLoader(batch_size=batch_size, shuffle=True, max_size=100000).get_data_loader()
+def load_data(batch_size=8,max_size=1000000):
+    test_dataloader = DataLoader(batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 
@@ -75,13 +72,14 @@ def show_results_of_model(model, data, output_file=None):
 
 
 def calc_accuracy(mode_name, device="cuda"):
-    test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=10000).get_data_loader()
+    test_dataloader = DataLoader(batch_size=16, shuffle=True, max_size=100000).get_data_loader()
     model = load_model(mode_name).to(device)
 
     accuracy = Accuracy().to(device)
 
     labels_arr = torch.tensor([]).to(device)
     pred_labels_arr = torch.tensor([]).to(device)
+
     for i, data in enumerate(test_dataloader):
         images, labels, names = data
         labels = labels.to(device)

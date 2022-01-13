@@ -1,0 +1,4 @@
+dir: Pokemon_Images_Teacher
+pokedex: pokedex_Teacher.csv
+val_dir: Pokemon_Images_Teacher
+val_pokedex: pokedex_Teacher.csv
