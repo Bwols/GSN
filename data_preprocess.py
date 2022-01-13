@@ -3,10 +3,10 @@ import cv2
 import csv
 
 
-DATASET_DIR = "Pokemon_Images"
-POKEMONDATA = "PokemonData"
+DATASET_DIR = "Pokemon_Images_Teacher"
+POKEMONDATA = "PokemonDataTeacher"
 CSV_FILE = "pokedex.csv"
-CLASSES_CSV = "classes.csv"
+CLASSES_CSV = "classesteacher.csv"
 
 
 
