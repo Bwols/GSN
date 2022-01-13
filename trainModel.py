@@ -23,13 +23,13 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
                                   labels_csv=dataset_pokedex,
                                   batch_size=batch_size,
                                   shuffle=True,
-                                  max_size=10).get_data_loader()
+                                  max_size=1000000).get_data_loader() #TODO  tu można zminiejszyć wczytywaną ilość obrazów żeby było szybciej
 
     val_dataloader = DataLoader(dataset_dir=val_dataset_dir,
                                   labels_csv=val_dataset_pokedex,
                                   batch_size=batch_size,
                                   shuffle=False,
-                                  max_size=10).get_data_loader()
+                                  max_size=1000000).get_data_loader() #TODO same
 
     gpus = 0
     print(device)
@@ -46,12 +46,12 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
     print("\nCzas trenowania: ",int(b - a), "s")
     make_dir(MODELS_DIR)
 
-    model_save_path = "{}/{}.ckpt".format(MODELS_DIR, model_name)
+    model_save_path = "{}/{}_{}_{}.ckpt".format(MODELS_DIR, model_name,architecture,image_size)
     trainer.save_checkpoint(model_save_path)
     print("model zapisany w:", model_save_path)
 
-    data = load_data(16)
-    show_results_of_model(model, data, output_file="in_train.png")
+    #data = load_data(16)
+    #show_results_of_model(model, data, output_file="in_train.png")
 
 
 

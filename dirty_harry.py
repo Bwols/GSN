@@ -10,6 +10,13 @@ from omegaconf import DictConfig, OmegaConf
 from tests import load_data
 from model import PokemonClassifier
 
+from tests import calc_accuracy
+
+calc_accuracy()
+
+"""
+batch_size
+
 model = PokemonClassifier()
 data = load_data(4,10)
 x, labels,_ = data
@@ -23,11 +30,6 @@ criterion = torch.nn.BCELoss()
 loss = criterion(y,labels)
 
 print(loss)
-
-
-
-"""
-batch_size
 
 
 test_dataloader = DataLoader(batch_size=4, shuffle=True, max_size=400).get_data_loader()

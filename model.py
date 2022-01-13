@@ -19,7 +19,7 @@ def ResNet152(inputSize=64):
 RESNET50 = "ResNet50"
 RESNET152 = "ResNet152"
 
-ADAM = "Adam"
+ADAM = "Adam" #TODO < defaultowy jak zła nazwa
 SGD = "SGD"
 
 NLLLOSS = "NLLLoss"
@@ -53,7 +53,7 @@ class PokemonClassifier(pl.LightningModule):
             self.loss_criterion = torch.nn.NLLLoss()
         else:
             self.loss_criterion = torch.nn.CrossEntropyLoss(reduction='mean')
-        print(self.loss_criterion)
+        print("loss criterion",self.loss_criterion)
 
     def forward(self, x):
 
@@ -78,9 +78,9 @@ class PokemonClassifier(pl.LightningModule):
         class_propabilities, pred_labels = torch.max(logits, 1)
         right_preds = 0
 
-        print("Accuracy:{}", self.accuracy(labels, pred_labels))
-        print("labels", labels)
-        print("pred", pred_labels)
+        #print("Accuracy:{}", self.accuracy(labels, pred_labels)) # TODO printy podczas uczenia do manuelnej kontroli
+        #print("labels", labels)
+        #print("pred", pred_labels)
         loss = self.loss_criterion(logits, labels)
 
         self.log('val_loss', loss)

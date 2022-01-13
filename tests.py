@@ -21,7 +21,7 @@ from torchmetrics import Accuracy
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
 
 
-def load_model(path_to_model):
+def load_model(path_to_model): # TODO
     model = PokemonClassifier()
     model.eval()
     model = model.load_from_checkpoint(path_to_model)
