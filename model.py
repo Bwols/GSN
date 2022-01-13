@@ -10,7 +10,7 @@ from torchmetrics import Accuracy
 
 
 def ResNet50():
-    return ResNet([3, 4, 6, 3], inputSize=64)
+    return ResNet([3, 4, 6, 3], inputSize=256)
 
 def ResNet152():
     return ResNet([3, 8, 36, 3], inputSize=64)

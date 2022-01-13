@@ -13,7 +13,7 @@ def train_model(train_name,batch_size=16, max_epochs=5):
 
 
     train_dataloader = DataLoader(batch_size=batch_size,shuffle=True).get_data_loader()
-    val_loader = DataLoader(batch_size=64,shuffle=True).get_data_loader()
+    val_loader = DataLoader(batch_size=64,shuffle=False).get_data_loader()
 
     trainer = pl.Trainer(max_epochs=max_epochs,gpus=1)
 

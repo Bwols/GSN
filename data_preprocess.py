@@ -3,10 +3,10 @@ import cv2
 import csv
 from glob import glob
 
-DATASET_DIR = "Pokemon_Images"
-POKEMONDATA = "PokemonData"
+DATASET_DIR = "Pokemon_Images_Teacher"
+POKEMONDATA = "PokemonDataTeacher"
 CSV_FILE = "pokedex.csv"
-CLASSES_CSV = "classes.csv"
+CLASSES_CSV = "classesteacher.csv"
 
 
 
@@ -70,6 +70,6 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
     file2.close()
 
 #uncomment to run prepare dataset
-prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv")
+#prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv")
 
 
