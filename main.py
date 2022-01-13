@@ -12,8 +12,9 @@ DEFAULT_MODEL_NAME = "run_0"
 
 @hydra.main(config_path=CONFIG_PATH,config_name=CONFIG_NAME)
 
-def run_hydra(config):
 
+
+def run_hydra(config):
     print(get_original_cwd(),"\n")
     os.chdir(get_original_cwd()) # <--- molto importanto
 
