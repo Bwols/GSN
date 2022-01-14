@@ -21,11 +21,11 @@ from torchmetrics import Accuracy
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
 
 
-def load_model(path_to_model,architecture="ResNet50",image_size=64): # TODO
+def load_model(path_to_model,architecture="ResNet50",image_size=64,device="cuda"): # TODO
 
     #model = PokemonClassifier(architecture=architecture,image_size=image_size)
 
-    model = PokemonClassifier.load_from_checkpoint(path_to_model,architecture=architecture,image_size=image_size).eval()
+    model = PokemonClassifier.load_from_checkpoint(path_to_model,architecture=architecture,image_size=image_size,device=device).eval()
     return model
 
 
