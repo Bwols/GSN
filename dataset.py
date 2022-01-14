@@ -20,17 +20,14 @@ IMG_EXT = ".png"
 POKEMONDATA = "PokemonData"
 CLASSES_CSV = "classes.csv"
 
-
+# Zródło kodu funckji poniżej https://www.delftstack.com/howto/python/python-read-csv-into-array/
 def read_csv_file(csv_file_name = CSV_FILE):
     file = open(csv_file_name)
     csvreader = csv.reader(file)
-    #header = next(csvreader)
-    #print(header)
     rows = []
     for row in csvreader:
         rows.append(row)
 
-    #print(rows)
     file.close()
     return rows
 

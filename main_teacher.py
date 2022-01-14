@@ -19,7 +19,7 @@ CLASSES_CSV = "classes.csv"
 CSV_FILE_STUDENT = "pokedex_student64.csv"
 CSV_FILE_TEACHER = "pokedex_teacher64.csv"
 
-
+#kod stworzony w oparciu o samouczki ze strony https://hydra.cc/docs/tutorials/intro/
 #git add foldername/\*
 
 teacher_student = False
