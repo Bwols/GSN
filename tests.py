@@ -39,7 +39,7 @@ def show_results_of_model(model, data, output_file=None):
     images, labels, class_names = data
     fig = plt.figure(figsize=(15, 3))
     pred_labels = model(images)
-    print(pred_labels[0])
+    #print(pred_labels[0])
     classes = read_classes()
     class_propabilities, pred_labels = torch.max(pred_labels, 1)
 
@@ -54,9 +54,9 @@ def show_results_of_model(model, data, output_file=None):
     print(right_preds)
 
 
-    print(labels)
-    print(pred_labels)
-    print(accuracy(labels, pred_labels))
+    print("True labels:     ",labels)
+    print("Predicted labels:     ", pred_labels)
+    print("Accuracy",accuracy(labels, pred_labels))
 
     for i in range(len(images)):
         image = images[i]
@@ -101,5 +101,5 @@ def calc_accuracy(model,test_dataloader, device="cpu"):
     acc = accuracy(labels_arr.int(), pred_labels_arr.int())
 
     print("Accuracy:", acc.float())
-    return accuracy
+    return acc
 
