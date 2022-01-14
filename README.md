@@ -31,5 +31,8 @@ architecture_config:
 Kod nie jest w całości nasz.
 Kod opiera się o a także zawiera cudze fragmenty programów.
 Do stworzenia kodu zostały użyte następujące źródła:
+https://developpaper.com/pytorch-implementation-examples-of-resnet50-resnet101-and-resnet152/ - Model resnetu
+https://medium.com/decathlontechnology/improving-performance-of-image-classification-models-using-pretraining-and-a-combination-of-e271c96808d2
+https://discuss.pytorch.org/t/how-to-classify-single-image-using-loaded-net/1411
 https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
 https://towardsdatascience.com/keeping-up-with-pytorch-lightning-and-hydra-2nd-edition-34f88e9d5c90
