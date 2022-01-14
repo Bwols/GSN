@@ -29,8 +29,8 @@ def load_model(path_to_model,architecture="ResNet50",image_size=64,device="cuda"
     return model
 
 
-def load_data(dataset_dir="Pokemon_Images", labels_csv="pokedex.csv", batch_size=8,max_size=100):
-    test_dataloader = DataLoader(dataset_dir=dataset_dir, labels_csv=labels_csv, batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
+def load_data(dataset_dir="Pokemon_Images", labels_csv="pokedex.csv", batch_size=8,max_size=100,augmentation=True):
+    test_dataloader = DataLoader(dataset_dir=dataset_dir, labels_csv=labels_csv, batch_size=batch_size, shuffle=True, max_size=max_size,augmentation=augmentation).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 
