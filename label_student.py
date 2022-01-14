@@ -16,12 +16,15 @@ CSV_FILE_TEACHER = "pokedex_teacher64.csv"
 MODEL_PATH = "teacher_models"
 
 loader = transforms.Compose([transforms.Scale(imsize), transforms.ToTensor()])
+import cv2 as cv
+
 
 transform = transforms.Compose(
             [
              transforms.ToTensor(),
              transforms.Normalize((0,), (1,)),  # zakres 0,1
              ])
+
 
 def label_student(student_folder = STUDENTFOLDER , teacher_folder = TEACHERFOLDER, classes_csv = CLASSES_CSV , csv_file_student = CSV_FILE_STUDENT , csv_file_teacher = CSV_FILE_TEACHER, model_path =MODEL_PATH)  :
     directory = os.fsencode("models")
@@ -39,6 +42,7 @@ def image_loader(image_name):
     image = Image.open(image_name)
     image = transform(image).to('cuda').unsqueeze(0)
     return image
+
 
 def create_pokedex(model):
     path, dirs, files = next(os.walk(STUDENTFOLDER))
@@ -72,3 +76,4 @@ def merge_datasets():
         with open(CSV_FILE_TEACHER) as f: 
             teacher_records = list(csv.reader(f))
         writer.writerow([nr_of_files_student, teacher_records[i][1], teacher_records[i][2]])
+

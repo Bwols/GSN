@@ -21,16 +21,16 @@ from torchmetrics import Accuracy
 #PokemonClassifier.load_from_checkpoint("C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_49\\checkpoints\\epoch=0-step=427.ckpt")
 
 
-def load_model(path_to_model,architecture="ResNet50",image_size=64): # TODO
+def load_model(path_to_model,architecture="ResNet50",image_size=64,device="cuda"): # TODO
 
     #model = PokemonClassifier(architecture=architecture,image_size=image_size)
 
-    model = PokemonClassifier.load_from_checkpoint(path_to_model,architecture=architecture,image_size=image_size).eval()
+    model = PokemonClassifier.load_from_checkpoint(path_to_model,architecture=architecture,image_size=image_size,device=device).eval()
     return model
 
 
-def load_data(dataset_dir="Pokemon_Images", labels_csv="pokedex.csv", batch_size=8,max_size=100):
-    test_dataloader = DataLoader(dataset_dir=dataset_dir, labels_csv=labels_csv, batch_size=batch_size, shuffle=True, max_size=max_size).get_data_loader()
+def load_data(dataset_dir="Pokemon_Images", labels_csv="pokedex.csv", batch_size=8,max_size=100,augmentation=True):
+    test_dataloader = DataLoader(dataset_dir=dataset_dir, labels_csv=labels_csv, batch_size=batch_size, shuffle=True, max_size=max_size,augmentation=augmentation).get_data_loader()
     data = iter(test_dataloader).next()
     return data
 
@@ -39,14 +39,14 @@ def show_results_of_model(model, data, output_file=None):
     images, labels, class_names = data
     fig = plt.figure(figsize=(15, 3))
     pred_labels = model(images)
-    print(pred_labels[0])
+    #print(pred_labels[0])
     classes = read_classes()
     class_propabilities, pred_labels = torch.max(pred_labels, 1)
 
     right_preds = 0
 
     for i in range(0,len(pred_labels)):
-        print(i)
+
         if pred_labels[i] == labels[i]:
             right_preds+=1
 
@@ -54,9 +54,9 @@ def show_results_of_model(model, data, output_file=None):
     print(right_preds)
 
 
-    print(labels)
-    print(pred_labels)
-    print(accuracy(labels, pred_labels))
+    print("True labels:     ",labels)
+    print("Predicted labels:     ", pred_labels)
+    print("Accuracy",accuracy(labels, pred_labels))
 
     for i in range(len(images)):
         image = images[i]
@@ -101,5 +101,5 @@ def calc_accuracy(model,test_dataloader, device="cpu"):
     acc = accuracy(labels_arr.int(), pred_labels_arr.int())
 
     print("Accuracy:", acc.float())
-    return accuracy
+    return acc
 

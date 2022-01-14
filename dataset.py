@@ -37,7 +37,7 @@ def read_csv_file(csv_file_name = CSV_FILE):
 
 class PokeDataset(Dataset):
 
-    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, max_size=10000):
+    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, max_size=10000, augmentation=True):
         j = 0
 
         self.data = []
@@ -78,10 +78,11 @@ class PokeDataset(Dataset):
             self.data.append(dat) 
             #print(image.shape[:])
             #dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
-            for i in range(3):
-                image2 = transform(image)
-                dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
-                self.data.append(dat)
+            if augmentation:
+                for i in range(3):
+                    image2 = transform(image)
+                    dat = (image2, int(csv_labels[2][label_idx][0]), csv_labels[1][label_idx][0]) #zwraca obraz, label, i nazwę klasy #TODO Usunięte
+                    self.data.append(dat)
 
             j+=1
             if j >= max_size:
@@ -98,9 +99,9 @@ class PokeDataset(Dataset):
 
 class DataLoader:
 
-    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False,max_size=100000):
+    def __init__(self, dataset_dir=DATASET_DIR, labels_csv=CSV_FILE, batch_size=16, shuffle=False, max_size=100000,augmentation=True):
         print("Loaded: ",dataset_dir)
-        dataset = PokeDataset(dataset_dir, labels_csv, max_size)
+        dataset = PokeDataset(dataset_dir, labels_csv, max_size,augmentation)
         self.data_loader = torch.utils.data.DataLoader(
             dataset,
             batch_size = batch_size,

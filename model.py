@@ -10,14 +10,10 @@ from torchmetrics import Accuracy
 
 
 
-def ResNet50(inputSize=64):
-    return ResNet([3, 4, 6, 3], inputSize=inputSize)
-
-def ResNet152(inputSize=64):
-    return ResNet([3, 8, 36, 3], inputSize=inputSize)
 
 RESNET50 = "ResNet50"
 RESNET152 = "ResNet152"
+RESNET101 = "ResNet101"
 
 ADAM = "Adam" #TODO < defaultowy jak zła nazwa
 SGD = "SGD"
@@ -25,11 +21,25 @@ SGD = "SGD"
 NLLLOSS = "NLLLoss"
 CROSSENTROPY = "CrossEntropy"
 
+
+def ResNet50(inputSize=64):
+    return ResNet([3, 4, 6, 3], inputSize=inputSize)
+
+def ResNet152(inputSize=64):
+    return ResNet([3, 8, 36, 3], inputSize=inputSize)
+
+def ResNet101(inputSize=64):
+    return ResNet([3, 4, 23, 3], inputSize=inputSize)
+
+
+
+
+
 class PokemonClassifier(pl.LightningModule):
 
     def __init__(self, architecture="ResNet50", image_size=64, lr=0.001, optimizer=ADAM,loss_function=CROSSENTROPY, device="cuda"):
         super(PokemonClassifier, self).__init__()
-
+        print(image_size)
         # self.model = Model()
         self.lr = lr
         self.optimizer = optimizer
@@ -44,6 +54,10 @@ class PokemonClassifier(pl.LightningModule):
         elif architecture == RESNET152:
             self.model = ResNet152(inputSize=image_size)
             print("RESNET152")
+        elif architecture == RESNET101:
+            self.model = ResNet101(inputSize=image_size)
+            print("RESNET101")
+
         else:
             print("Unknown Architecture!!!")
 

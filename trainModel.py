@@ -37,7 +37,7 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
     print(device)
     if device == CUDA:
 
-        gpus = 0#TODO
+        gpus = 1#TODO
     print(gpus)
 
     trainer = pl.Trainer(max_epochs=max_epochs, gpus=gpus)
