@@ -46,7 +46,7 @@ def show_results_of_model(model, data, output_file=None):
     right_preds = 0
 
     for i in range(0,len(pred_labels)):
-        print(i)
+
         if pred_labels[i] == labels[i]:
             right_preds+=1
 
