@@ -36,3 +36,7 @@ https://medium.com/decathlontechnology/improving-performance-of-image-classifica
 https://discuss.pytorch.org/t/how-to-classify-single-image-using-loaded-net/1411
 https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09
 https://towardsdatascience.com/keeping-up-with-pytorch-lightning-and-hydra-2nd-edition-34f88e9d5c90
+https://www.delftstack.com/howto/python/python-read-csv-into-array/
+https://hydra.cc/docs/tutorials/intro/
+https://towardsdatascience.com/how-to-train-an-image-classifier-in-pytorch-and-use-it-to-perform-basic-inference-on-single-images-99465a1e9bf5
+
