@@ -14,9 +14,9 @@ MODELS_DIR = "models"
 CUDA = "cuda"
 
 
-def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_dataset_pokedex, architecture="ResNet50",image_size=60,
+def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_dataset_pokedex, architecture="ResNet50",image_size=64,
+                batch_size=16, max_epochs=5,lr=0.001,optimizer="Adam",loss_function="CrossEntropy",device="cpu", model_dir = MODELS_DIR):
 
-                batch_size=16, max_epochs=5,lr=0.001,optimizer="Adam",loss_function="CrossEntropy",device="cpu"):
     make_dir(MODELS_DIR)
     model = PokemonClassifier(architecture=architecture, image_size=image_size, lr=lr, optimizer=optimizer, loss_function=loss_function,
                               device=device)
@@ -46,9 +46,9 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
     trainer.fit(model, train_dataloader,val_dataloader)#, val_loader
     b = time.time()
     print("\nCzas trenowania: ",int(b - a), "s")
-    make_dir(MODELS_DIR)
+    make_dir(model_dir)
 
-    model_save_path = "{}/{}_{}_{}.ckpt".format(MODELS_DIR, model_name,architecture,image_size)
+    model_save_path = "{}/{}_{}_{}.ckpt".format(model_dir, model_name,architecture,image_size)
     trainer.save_checkpoint(model_save_path)
     print("model zapisany w:", model_save_path)
 

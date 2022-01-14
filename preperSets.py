@@ -1,11 +1,17 @@
 import os
 #import cv2
 import csv
+import shutil
 
+SOURCEFOLDER = "PokemonData"
 TEACHERFOLDER = "PokemonDataTeacher"
 STUDENTFOLDER = "PokemonDataStudent"
 
 def preperFolders():
+
+    shutil.copytree(SOURCEFOLDER, TEACHERFOLDER)
+    shutil.copytree(SOURCEFOLDER, STUDENTFOLDER)
+
     directory = os.fsencode(STUDENTFOLDER)
     
     for folder in os.listdir(directory):
@@ -24,5 +30,5 @@ def preperFolders():
             fileString = fileString[:-1]
             os.remove(TEACHERFOLDER +"\\" + foldername + "\\" + fileString)
             
-preperFolders()
+
 

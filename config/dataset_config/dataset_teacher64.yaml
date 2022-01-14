@@ -1,0 +1,8 @@
+dir_teacher: Pokemon_Images_Teacher64
+dir_student: Pokemon_Images_Student64
+pokedex_teacher: pokedex_teacher64.csv
+pokedex_student: pokedex_student64.csv
+val_dir_teacher: Pokemon_Images_Teacher64
+val_dir_student: Pokemon_Images_Student64
+val_pokedex_teacher: pokedex_teacher64.csv
+val_pokedex_student: pokedex_student64.csv
