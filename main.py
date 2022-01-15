@@ -63,7 +63,3 @@ def run_hydra(config):
                 )
 
 
-
-
-#print("Current Working Directory ", os.getcwd())
-run_hydra()

@@ -94,7 +94,7 @@ class PokemonClassifier(pl.LightningModule):
         class_propabilities, pred_labels = torch.max(logits, 1)
         right_preds = 0
 
-        #print("Accuracy:{}", self.accuracy(labels, pred_labels)) # TODO printy podczas uczenia do manuelnej kontroli
+        print("Accuracy:{}", self.accuracy(labels, pred_labels)) # TODO printy podczas uczenia do manuelnej kontroli
         #print("labels", labels)
         #print("pred", pred_labels)
         loss = self.loss_criterion(logits, labels)

@@ -1,3 +1,6 @@
+# https://developpaper.com/pytorch-implementation-examples-of-resnet50-resnet101-and-resnet152 - Zrodlo modelu 
+# Ponizsza implementacja jest przerobiona wersja kodu z powyzszego zrodla.
+
 import torch
 import torch.nn as nn
 import torchvision

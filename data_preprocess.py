@@ -3,10 +3,10 @@ import cv2
 import csv
 
 
-DATASET_DIR = "Pokemon_Images_Teacher"
+DATASET_DIR = "Pokemon_Images_Teacher64"
 POKEMONDATA = "PokemonDataTeacher"
-CSV_FILE = "pokedex.csv"
-CLASSES_CSV = "classesteacher.csv"
+CSV_FILE = "pokedex_Teacher64.csv"
+CLASSES_CSV = "classesteacher64.csv"
 
 
 
@@ -69,7 +69,13 @@ def prepare_dataset(dim, pokemonDataDir=POKEMONDATA, output_dir = DATASET_DIR, c
     file.close()
     file2.close()
 
+
 #uncomment to run prepare dataset #TODO
 ##prepare_dataset(dim=(256, 256), output_dir="Pokemon_Images_256",csv_file="pokedex_256.csv") #TODO po odkomentowaniu od razu zakomentować
+
+#uncomment to run prepare dataset
+
+#prepare_dataset(dim=(64, 64), output_dir="Pokemon_Images_Teacher64",csv_file="pokedex_teacher64.csv")
+
 
 
