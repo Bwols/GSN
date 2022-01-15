@@ -14,9 +14,9 @@ def preperFolders():
 
     directory = os.fsencode(STUDENTFOLDER)
     
-    for folder in os.listdir(directory[2:-1]):
-        foldername = os.fsdecode(folder)
-        subDirectory = os.fsencode(STUDENTFOLDER +"\\" + foldername)
+    for folder in os.listdir(directory):
+        #foldername = os.fsdecode(folder)[2:-1]
+        subDirectory = os.fsencode(STUDENTFOLDER +"\\" + folder)
         iterator = 0
         for file in os.listdir(subDirectory):
             fileString = str(file)[2:]
