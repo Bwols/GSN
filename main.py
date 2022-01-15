@@ -10,6 +10,8 @@ DEFAULT_MODEL_NAME = "run_0"
 
 #git add foldername/\*
 
+#kod stworzony w oparciu o samouczki ze strony https://hydra.cc/docs/tutorials/intro/
+
 @hydra.main(config_path=CONFIG_PATH,config_name=CONFIG_NAME)
 
 
