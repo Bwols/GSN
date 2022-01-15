@@ -64,4 +64,4 @@ def run_hydra(config):
                 device=device
                 )
 
-
+run_hydra()
