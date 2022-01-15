@@ -26,7 +26,7 @@ def train_model(model_name, dataset_dir, dataset_pokedex, val_dataset_dir,val_da
                                   batch_size=batch_size,
                                   shuffle=True,
                                   max_size=100000,
-                                  augmentation=False).get_data_loader() #TODO  tu można zminiejszyć wczytywaną ilość obrazów żeby było szybciej
+                                  augmentation=True).get_data_loader() #TODO  tu można zminiejszyć wczytywaną ilość obrazów żeby było szybciej
 
     val_dataloader = DataLoader(dataset_dir=val_dataset_dir,
                                   labels_csv=val_dataset_pokedex,
