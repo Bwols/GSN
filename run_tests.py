@@ -1,15 +1,23 @@
 from tests import show_results_of_model, load_data, load_model, calc_accuracy
+from dataset import DataLoader
 
-#path_to_model = "C:\\Users\\JeLoń\\Desktop\\GSN\\lightning_logs\\version_121\\checkpoints\\epoch=4-step=2139.ckpt"
 
-def graphic_results():
-    path_to_model = "models/first_test_new.ckpt"
-    model = load_model(path_to_model)
 
-    data = load_data(8)
 
-    show_results_of_model(model, data, "run1.png")
+model = load_model(path_to_model="models/exp1_ResNet101_64.ckpt",
+                   architecture="ResNet101",
+                   image_size=64,device="cuda")
 
-#graphic_results()
 
-calc_accuracy("models/first_test_new.ckpt")
+test_dataloader = DataLoader(dataset_dir="Pokemon_Images",
+                             labels_csv="pokedex.csv" ,
+                             batch_size=16, shuffle=True, max_size=100000,
+                             augmentation=False).get_data_loader()
+
+calc_accuracy(model=model, test_dataloader=test_dataloader,device="cuda")
+
+#TODO odkomentować dla graficznego rezultatu
+#data = load_data(dataset_dir="Pokemon_Images",labels_csv="pokedex.csv" , batch_size=8,max_size=9,augmentation=False)
+
+#show_results_of_model(model, data, "example.png")
+
