@@ -27,8 +27,8 @@ transform = transforms.Compose(
 
 
 def label_student(student_folder = STUDENTFOLDER , teacher_folder = TEACHERFOLDER, classes_csv = CLASSES_CSV , csv_file_student = CSV_FILE_STUDENT , csv_file_teacher = CSV_FILE_TEACHER, model_path =MODEL_PATH)  :
-    directory = os.fsencode("models")
-    path_to_model = str(directory)[2:-1] + "\\" +  str(os.listdir(directory))[3:-2] 
+    directory = "teacher_models"
+    path_to_model = str(directory) + "/" +  str(os.listdir(directory)[0])
 
     model = load_model(path_to_model, architecture="ResNet50", image_size=64)
     model = model.cuda()
@@ -50,7 +50,7 @@ def create_pokedex(model):
     writer = csv.writer(pokedex)
     for i in range(len(files)):
         filename = str(i+1) + ".png"
-        image  = image_loader(STUDENTFOLDER + "\\" + filename)
+        image  = image_loader(STUDENTFOLDER + "/" + filename)
         class_nr =int(torch.argmax(model(image)).item())
 
         with open(CLASSES_CSV) as f:
@@ -69,8 +69,8 @@ def merge_datasets():
 
     for i in range(nr_of_files_teacher): # Iterujemy po folderze teachera
         nr_of_files_student = nr_of_files_student + 1 
-        os.replace(TEACHERFOLDER + "\\" + str(i+1) + ".png",STUDENTFOLDER + "\\" + str(nr_of_files_student) + ".png") # dodajemy rzeczy z folderu teachera na koniec folderu studenta
-        print("Przeniosłem" + TEACHERFOLDER + "\\" + str(i+1) + ".png" + " do " +  STUDENTFOLDER + "\\" + str(nr_of_files_student) + ".png")
+        os.replace(TEACHERFOLDER + "/" + str(i+1) + ".png",STUDENTFOLDER + "/" + str(nr_of_files_student) + ".png") # dodajemy rzeczy z folderu teachera na koniec folderu studenta
+        print("Przeniosłem" + TEACHERFOLDER + "/" + str(i+1) + ".png" + " do " +  STUDENTFOLDER + "/" + str(nr_of_files_student) + ".png")
         pokedex = open(CSV_FILE_STUDENT, 'a', newline='') # Otwieramy utworzony wczesniej pokedex dla studenta
         writer = csv.writer(pokedex)
         with open(CSV_FILE_TEACHER) as f: 
