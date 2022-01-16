@@ -1,0 +1,2 @@
+architecture: ResNet101
+image_size: 64
